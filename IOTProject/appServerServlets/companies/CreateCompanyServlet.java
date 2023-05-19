@@ -49,9 +49,8 @@ public class CreateCompanyServlet extends HttpServlet {
 		    String company_name = json.getString("company_name");
 		    String adress = json.getString("address");
 		    String phone_number = json.getString("phone_number");
-		    int rows = 0;
 		    try {
-				rows = JDBCCompany.addCompany(id_company, company_name, adress, phone_number);
+				JDBCCompany.addCompany(id_company, company_name, adress, phone_number);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -59,51 +58,14 @@ public class CreateCompanyServlet extends HttpServlet {
 
 		    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/iotGateWay");
 	        dispatcher.forward(request, response);
-		    
-		    // Envoyer JSON 
-			/*URL url = new URL("http://localhost:8080/IOT/gate");
-			// Create a new HttpURLConnection object
-			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			con.setRequestMethod("POST");
-			con.setRequestProperty("Content-Type", "application/json");
-			
-			String stringRequest = requestToString(request);
-			con.setRequestProperty("Content-Length", Integer.toString(stringRequest.length()));
-
-			// Enable output and write the request body to the output stream
-			con.setDoOutput(true);
-			DataOutputStream out = new DataOutputStream(con.getOutputStream());
-			out.writeBytes(stringRequest);
-			out.flush();
-			out.close();
-			
-			// Get the response code and response message
-			int responseCode = con.getResponseCode();
-			String responseMessage = con.getResponseMessage();*/
-			response.getWriter().println("INSERT row number : " + rows);	
 		}
 		
 		
 		protected void doPut(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
-			//JSONObject jason = CreateJsonObj(request);
-			//int rows = UpdateDB(jason);
-			 //response.getWriter().println("UPDATE row number : " + rows + " " + jason.getString("name"));     
+			doPost(request, response);
 	    }
 		
-		  
-		  public static String requestToString(HttpServletRequest request) throws IOException {
-		        InputStream inputStream = request.getInputStream();
-		        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-		        StringBuilder stringBuilder = new StringBuilder();
-		        String line;
-		        while((line = reader.readLine()) != null) {
-		            stringBuilder.append(line);
-		        }
-		    
-		        return stringBuilder.toString();
-		               
-		    } 
-	  }
+}
 
 
