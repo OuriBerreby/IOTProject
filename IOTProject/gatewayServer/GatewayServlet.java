@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import DataBases.IOTDataBase;
 import DataBases.JDBCCompany;
+import DataBases.JDBCProduct;
 import JSONServices.JSONService;
 
 @WebServlet(name = "gateWayServlet", urlPatterns = {"/iotGateWay"})
@@ -27,8 +28,7 @@ public class GatewayServlet extends HttpServlet {
     public GatewayServlet() {
         super();
         scf.addCommand(Commands_ID.REGISTER_COMPANY, this::companyRegister);
-        //scf.addCommand(Commands_ID.REGISTER_USER);
-        //scf.addCommand(Commands_ID.REGISTER_PRODUCT);
+        scf.addCommand(Commands_ID.REGISTER_PRODUCT, this::productRegister);
         //scf.addCommand(Commands_ID.UPDATE_IOT);
     }
 
@@ -55,6 +55,17 @@ public class GatewayServlet extends HttpServlet {
 		res = IOTDataBase.mongoDBaddCompany(id_company, company_name, adress, phone_number);
 		
 		return res;
+	}
+	
+	private int productRegister(JSONObject json) {
+	    int id_company = json.getInt("company_ID");
+	    String product_id = json.getString("product_id");
+	    String product_name = json.getString("product_name");
+	    int price = json.getInt("price");
+		IOTDataBase.mongoDBaddProduct(id_company, product_id, product_name, price);
+		
+	    
+	    return 1;
 	}
 	
 	private void threadPoolTransfer(Commands_ID command_id, JSONObject jsonObject, HttpServletResponse response) {
