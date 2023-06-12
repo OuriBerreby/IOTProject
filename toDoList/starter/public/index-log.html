@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JWT Basics</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <form class="form contact-form">
+        <h5>login/register</h5>
+        <div class="form-row">
+          <label for="userName" class="form-label">userName</label>
+          <input type="text" class="username-input" />
+        </div>
+        <div class="form-row">
+          <label for="userPassword" class="form-label">userPassword</label>
+          <input type="password" class="password-input" />
+        </div>
+        <div class="text-small form-alert">there was an error</div>
+        <button type="submit" class="btn btn-block">Login</button>
+      </form>
+    </main>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+      integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="./login-user.js"></script>
+  </body>
+</html>
