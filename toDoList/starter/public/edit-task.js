@@ -6,7 +6,6 @@ const editBtnDOM = document.querySelector('.task-edit-btn')
 const formAlertDOM = document.querySelector('.form-alert')
 const params = window.location.search
 const id = new URLSearchParams(params).get('id')
-let tempName
 
 const showTask = async () => {
   try {

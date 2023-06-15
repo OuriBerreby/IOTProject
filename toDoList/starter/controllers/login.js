@@ -1,14 +1,14 @@
 const asyncWrapper = require('../middleware/async')
 const auth = require('../middleware/auth')
-const Log = require('../models/Register')
+const Log = require('../models/User')
 const jwt = require ('jsonwebtoken')
 
 let refreshTokens = []
 
 const login = asyncWrapper (async(req, res) => {
-    console.log("GABIO")
     const {userName: currentUser} = req.body
     const {userPassword: givenPassword} = req.body
+
     const isRegistered = await Log.findOne({userName: currentUser})
     if (!isRegistered){
         res.status(404).json({msg: `user ${currentUser} is not found`})
@@ -20,9 +20,11 @@ const login = asyncWrapper (async(req, res) => {
             return
         }
     }
-    const user = { userName: currentUser }
+    const user = { currentUser }
+    console.log(user)
     const accessToken = generateAccessToken(user)
-    res.status(200).json({ accessToken: accessToken })
+    console.log(accessToken)
+    res.status(200).send(accessToken)
 })
 
 function generateAccessToken(user) {

@@ -1,68 +1,72 @@
+
 const formDOM = document.querySelector('.form')
 const usernameInputDOM = document.querySelector('.username-input')
 const passwordInputDOM = document.querySelector('.password-input')
 const formAlertDOM = document.querySelector('.form-alert')
 const resultDOM = document.querySelector('.result')
 const btnDOM = document.querySelector('#data')
-const tokenDOM = document.querySelector('.token')
+//const tokenDOM = document.querySelector('.token')
+const loginButton = document.querySelector('#login-user')
+const registerButton = document.querySelector('#register-user')
 
-/*formDOM.addEventListener('submit', async (e) => {
-
-    formAlertDOM.classList.remove('text-success')
-    tokenDOM.classList.remove('text-success')
-
-    e.preventDefault()
-    const userName = usernameInputDOM.value
-    const userPassword = passwordInputDOM.value
-    try {
-        const { data } = await axios.post('api/v1/register', { userName, userPassword })
-        console.log(data.propertyName);
-    } catch (error) {
-        formAlertDOM.style.display = 'block'
-        formAlertDOM.textContent = error.response.data.msg
-        localStorage.removeItem('token')
-        resultDOM.innerHTML = ''
-        tokenDOM.textContent = 'An user with this username already exist'
-        tokenDOM.classList.remove('text-success')
-    }
-})
-*/
-formDOM.addEventListener('submit', async (e) => {
-  formAlertDOM.classList.remove('text-success')
-  tokenDOM.classList.remove('text-success')
-
+registerButton.addEventListener("click", async (e) => {
   e.preventDefault()
-  const username = usernameInputDOM.value
-  const password = passwordInputDOM.value
+  const userName = usernameInputDOM.value;
+  const userPassword = passwordInputDOM.value;
+  try {
+    const response = await axios.post("/api/v1/register", { userName, userPassword });
+    formAlertDOM.style.display = "none";
+    localStorage.removeItem("token");
+    resultDOM.innerHTML = "";
+    tokenDOM.textContent = "";
+    tokenDOM.classList.remove("text-success");
+  } catch (error) {
+    formAlertDOM.style.display = "block";
+    formAlertDOM.textContent = error.response.data.msg;
+    localStorage.removeItem("token");
+    resultDOM.innerHTML = "";
+    tokenDOM.textContent = "An user with this username already exists";
+    tokenDOM.classList.remove("text-success");
+  }
+});
+
+
+formDOM.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const userName = usernameInputDOM.value;
+  const userPassword = passwordInputDOM.value;
 
   try {
-    const { data } = await axios.post('/api/v1/login', { username, password })
+    const response = await axios.post("/api/v1/login", { userName, userPassword });
+    
+    const data = response.data;
+    console.log(data)
+    // Connexion réussie
+    formAlertDOM.style.display = "block";
+    formAlertDOM.classList.add("text-success");
+    usernameInputDOM.value = "";
+    passwordInputDOM.value = "";
 
-    formAlertDOM.style.display = 'block'
-    formAlertDOM.textContent = data.msg
-
-    formAlertDOM.classList.add('text-success')
-    usernameInputDOM.value = ''
-    passwordInputDOM.value = ''
-
-    localStorage.setItem('token', data.token)
-    resultDOM.innerHTML = ''
-    tokenDOM.textContent = 'token present'
-    tokenDOM.classList.add('text-success')
+    localStorage.setItem('token', data);
+  
+    // Rediriger vers la nouvelle page
+    window.location.href = "index.html";
   } catch (error) {
-    formAlertDOM.style.display = 'block'
-    formAlertDOM.textContent = error.response.data.msg
-    localStorage.removeItem('token')
-    resultDOM.innerHTML = ''
-    tokenDOM.textContent = 'no token present'
-    tokenDOM.classList.remove('text-success')
+    // Gérer les erreurs de connexion
+
+    formAlertDOM.style.display = "block";
+    //formAlertDOM.textContent = error.response.data.msg;
+    localStorage.removeItem("token");
+    resultDOM.innerHTML = "";
+    //tokenDOM.textContent = "No token present";
+    //tokenDOM.classList.remove("text-success");
   }
   setTimeout(() => {
-    formAlertDOM.style.display = 'none'
-  }, 2000)
-})
+    formAlertDOM.style.display = "none";
+  }, 2000);
+});
 
-/*btnDOM.addEventListener('click', async () => {
+btnDOM.addEventListener('click', async () => {
   const token = localStorage.getItem('token')
   try {
     const { data } = await axios.get('/api/v1/dashboard', {
@@ -88,4 +92,4 @@ const checkToken = () => {
     tokenDOM.classList.add('text-success')
   }
 }
-checkToken()*/
+checkToken()
