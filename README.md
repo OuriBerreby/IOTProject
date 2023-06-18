@@ -34,3 +34,4 @@ It's worth noting that although these modules have been built, they have not yet
 8. The result of the command execution is returned.
 9. The Response is prepared and sent back to the client.
 
+![FlowChart](https://github.com/OuriBerreby/IOTProject/assets/87609778/954ab60f-9146-47cf-aa3d-5c01dda8dc00)
